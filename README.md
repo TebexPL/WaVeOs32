@@ -37,6 +37,8 @@ I personally run compile.sh and debug.sh at the same time. compile.sh automatica
    2. Set the environment for Kernel(a20 gate, protected mode...)
    3. Jump to kernel
 
+   **Important note: my "proper bootloader" needs my FAT32 bootsector, because bootsector leaves some data which is used by "bootloader proper"**
+
   3. #### Kernel
   Nothing to write here. Kernel is just the end of boot process.
 
