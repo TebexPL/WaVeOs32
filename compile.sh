@@ -176,4 +176,6 @@ do
  OutFile=${f##*/}
  echo "$OutFile size: $(wc -c $f | awk '{print $1}') bytes"
 done
+echo $(grep "breakpoint" labels.map)
+rm -f labels.map
 done
