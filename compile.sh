@@ -1,5 +1,24 @@
 #Kernel Filename
-Name="WaVeOS"
+
+#JUST make sure it is 8.3 format compliant
+Name="WaVeOs" # <-- has to be less than 9 characters
+extention="elf" #<-- has to be less than 4 characters
+
+
+
+name83=$Name
+while (( "${#name83}" < "8" )) ; do
+	name83="$name83 "
+done
+name83="$name83""$extention"
+while (( "${#name83}" < "11" )) ; do
+	name83="$name83 "
+done
+name83=$(echo "$name83" | awk '{print toupper($0)}')
+
+
+
+
 
 #Boot device
 
@@ -75,8 +94,8 @@ do
 	OutFile=${f##*/}
   echo $OutFile
   OutFile=${OutFile%\.*}
- if [[ -n $(nasm -s -f bin -o "$Binary/$OutFile.bin" $f) ]]; then
-	echo $(nasm -s -f bin -o "$Binary/$OutFile.bin" $f)
+ if [[ -n $(nasm -s -d kernFilename=\'"$name83"\' -f bin -o "$Binary/$OutFile.bin" $f) ]]; then
+	echo $(nasm -s -d kernFilename=\'"$name83"\' -f bin -o "$Binary/$OutFile.bin" $f)
 	error="1";
  fi
 
@@ -127,7 +146,7 @@ fi
 #Link kernel - assembled and compiled parts
 echo
 echo "Linking Kernel from obj files... "
-if ! $Compiler/i386-elf-g++ -T $Linker -o $Binary/$Name.bin -ffreestanding -O2 -nostdlib $Obj/*.o -lgcc ; then
+if ! $Compiler/i386-elf-g++ -T $Linker -o $Binary/$Name.$extention -ffreestanding -O2 -nostdlib $Obj/*.o -lgcc ; then
  continue;
 fi
 #mount boot device/partition
