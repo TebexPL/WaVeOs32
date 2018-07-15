@@ -30,7 +30,6 @@ PartPath="/dev/disk/by-label/$PartLabel"
 #Source files' directories
 Kernel="$PWD/Kernel"
 Assembly="$PWD/Assembly"
-Include="$PWD/Kernel/include"
 Linker="$PWD/linker.ld"
 #compiled/linked files' directories
 Obj="$PWD/obj"
@@ -69,7 +68,7 @@ echo "Ready!"
 
 #If any of source files were modified - recompile and copy
 
-while sudo inotifywait -r -e  close_write $Kernel $Include $Assembly -q; do
+while sudo inotifywait -r -e  close_write $Kernel $Assembly -q; do
 clear
 
 #Check if device is ready - everytime
