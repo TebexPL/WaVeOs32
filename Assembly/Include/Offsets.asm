@@ -26,9 +26,16 @@
 %define bytesPerCluster 0x7E29; (word) size of one cluster in bytes
 %define clusSize 0x7E2B; (word) size of one cluster in 0x200 (512 for noobs) byte sectors
 
-%define BootloaderSegment 0x1000 ; Address(segment) of this bootloader in memory
-%define BufferSegment 0x2000 ; Address(segment) of buffer in memory(for storing temporary data)
-%define KernelFileSegment 0x3000 ; Address(segment) of place in memory where Kernel file will be loaded
+%define BootloaderSegment  0x1000   ; Address(segment) of this bootloader in memory
+%define BufferSegment      0x2000   ; Address(segment) of buffer in memory(for storing temporary data)
+%define KernelFileSegment  0x3000   ; Address(segment) of place in memory where Kernel file will be loaded
+%define KernelFileOffset32 0x30000  ; Address(32bit, linear) of place in memory where Kernel file is loaded
+%define BootloaderOffset32 0x10000  ; Address(32bit, linear) of this bootloader in memory
+
+%define A20CheckLow 0x7E2D ; address(offset) of test DWORD in low memory for checking if a_20 line is unlocked
+%define A20CheckHi  0x7E3D ; address(offset) of test DWORD after one megabyte for checking if a_20 line is unlocked
+
+%define ELFAllEntryBytes 0x7E2D ; some temporary data for ELF parsing
 
 
 ;FAT BPB offsets:

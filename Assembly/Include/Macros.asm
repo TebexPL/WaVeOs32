@@ -92,3 +92,31 @@
   mov eax, %1
   call nextClusterNumberRoutine
   %endmacro
+
+;Reads current state of PS/2 output port
+%macro ps2OutPortIn 0
+  call ps2WaitIn
+  mov al, 0xD0
+  out 0x64, al
+
+  call ps2WaitOut
+  in al, 0x60
+  %endmacro
+
+;writes current state of PS/2 output port
+%macro ps2OutPortOut 0
+  push ax
+  call ps2WaitIn
+  mov al, 0xD1
+  out 0x64, al
+
+  call ps2WaitIn
+  pop ax
+  out 0x60, al
+  %endmacro
+
+
+;bochsBreak     <--For debutg purposes, handles control to bochs debug console
+%macro bochsBreak 0
+  xchg bx, bx
+  %endmacro

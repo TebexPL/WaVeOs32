@@ -55,7 +55,7 @@ loadSectorsRoutine:
 
   ;If after retrying a few times, the error still occurs - display error message and halt
   .errorHW:
-    error storageErrorStr
+    error storageError
 
 ;es:bx - string address
 strOutRoutine:
@@ -135,3 +135,46 @@ nextClusterNumberRoutine:
   pop edx
   pop ecx
   ret
+
+
+;checkA20      <--- checks if A20 line is locked or unlocked
+
+;RETURN: CF - set=unlocked, not set=locked
+checkA20:
+  ;Preserve registers
+  push es
+  pushf
+  push 0xFFFF
+  pop es
+  ;check if memory wraps around
+  mov dword[A20CheckLow], 0xAAAAAAAA
+  mov dword[es:A20CheckHi], 0x55555555
+  cmp dword[A20CheckLow], 0x55555555
+  je .locked
+  ;Return information about A20 line state
+  .unlocked:
+    popf
+    pop es
+    stc
+    ret
+
+  ;Return information about A20 line state
+  .locked:
+    popf
+    pop es
+    clc
+    ret
+
+;Waits until PS2 port is available for output
+ps2WaitOut:
+    in al, 0x64
+    test al, 00000001b
+    jz ps2WaitOut
+    ret
+
+;Waits until PS2 port is available for input
+ps2WaitIn:
+    in al, 0x64
+    test al, 00000010b
+    jnz ps2WaitOut
+    ret
