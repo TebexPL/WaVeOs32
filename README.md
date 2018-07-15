@@ -31,11 +31,18 @@ I personally run compile.sh and debug.sh at the same time. compile.sh automatica
     2. Load this file into memory
     3. Execute it
 
-  2. #### "Proper Bootloader"...   (not complete yet)
-   ...Is just a pure binary executable. All it does:
-   1. Load Kernel into memory(.elf file)
-   2. Set the environment for Kernel(a20 gate, protected mode...)
-   3. Jump to kernel
+  2. #### "Proper Bootloader"
+   A pure binary file, loaded into memory by Bootsector. All it does:
+   1. Load kernel file (.elf) from FAT32 partition.
+   2. Checks if it is a valid ELF file.
+   3. Disables interrupts.
+   4. Enables A20 line.
+   5. Enters protected mode.
+   6. Parses kernel's elf file.
+   7. Jumps to kernel's code.
+
+
+   Feel free to check out the code. I tried to make it simple and well organised.
 
    **Important note: my "proper bootloader" needs my FAT32 bootsector, because bootsector leaves some data which is used by "bootloader proper"**
 
