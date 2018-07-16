@@ -134,7 +134,7 @@ do
  OutFile=${f##*/}
  echo $OutFile
  OutFile=${OutFile%\.*}
- if ! $Compiler/i386-elf-g++ -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c $f -o $Obj/$OutFile.o ; then
+ if ! $Compiler/i386-elf-g++ -masm=intel -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c $f -o $Obj/$OutFile.o ; then
 	error="1";
  fi
 done
