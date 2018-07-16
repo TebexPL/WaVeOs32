@@ -21,6 +21,12 @@ Setup:
   ;Set video mode(if bootloader needs to print in protected mode)
   mov ax, 0x0007
   int 0x10
+  ;Hide the cursor(just for fun)
+  mov ah, 0x02
+  xor bh, bh
+  mov dx, 0x1950
+  int 0x10
+
 
 ;Load Kernel's ELF32 file from boot FAT32 partition
 LoadKernelFile:
