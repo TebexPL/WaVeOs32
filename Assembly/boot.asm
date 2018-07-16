@@ -226,7 +226,7 @@ ProtectedMode:
   mov fs, ax
   mov gs, ax
   mov ss, ax
-  mov esp, 0x00010000
+  mov esp, 0x000A0000
 ;Parse kernel's ELF file
 ParseKernelELF:
   xor eax,eax
