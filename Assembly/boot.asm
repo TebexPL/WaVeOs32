@@ -5,7 +5,8 @@
 %include "Assembly/Include/Macros.asm"
 
 [map all labels.map]
-
+;Set segment registers
+;And set things which require BIOS interrupts before entering Protected mode
 Setup:
   ;Setup DS segment for using data left by my FAT32Bootsector
   push 0x0000
@@ -21,6 +22,7 @@ Setup:
   mov ax, 0x0007
   int 0x10
 
+;Load Kernel's ELF32 file from boot FAT32 partition
 LoadKernelFile:
   ;Calculate sectors per cluster
   xor eax, eax
@@ -153,7 +155,7 @@ LoadKernelFile:
     error badElfError
 
   .goodElf:
-
+;Set registers, etc. before entering Protected mode
 ProtectedModeSetup:
   .disableInterrupts:
     cli
@@ -209,7 +211,7 @@ ProtectedModeSetup:
     jmp 0x08:dword 0x10000+ProtectedMode
 
 BITS 32
-
+;Set rest of segment registers after entering protected mode
 ProtectedMode:
   ;Set rest of segment registers' selectors
   mov ax, 0x0010
@@ -288,6 +290,7 @@ ParseKernelELF:
 
 
   ;After parsing elf - jump to Kernel's entry point
+;after parsing ELF, jump to Kernel's entry point
 ParsedElf:
   mov ebx, dword[KernelFileOffset32+0x18]
   jmp ebx
